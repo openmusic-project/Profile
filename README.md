@@ -2,6 +2,8 @@
 
 Library for the Control of Melodic Profiles
 
+by Mikhail Malt & Jacopo Baboni Schilingi, IRCAM 1994
+
 
 -------
 
