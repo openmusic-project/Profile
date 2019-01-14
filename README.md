@@ -7,4 +7,4 @@ by Mikhail Malt & Jacopo Baboni Schilingi, IRCAM 1994
 
 -------
 
-User Manual (1998): http://support.ircam.fr/docs/om-libraries/old/
+User Manual (1998): http://support.ircam.fr/docs/om-libraries/old/Profile-2.0-Doc.pdf
