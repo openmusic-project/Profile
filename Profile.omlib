@@ -1,0 +1,41 @@
+;; Profile loader
+;; by Mikhail Malt   &   Jacopo Baboni Schilingi  © IRCAM 1994
+
+(:om-lib
+ 
+ (:version 2.1)
+
+ (:doc "Functions from the Repmus team.")
+
+ (:author "Mikhail Malt & Jacopo Baboni Schilingi, IRCAM 1994")
+
+ (:source-files 
+  "sources/package"
+  "sources/profile"
+  )
+
+ ;;; DECLARED SYMBOLS VISIBLE AND ACCESSIBLE THROUGH THE OM PACKAGE TREE
+ (:symbols
+  (:packages 
+   (:package 
+      (:name "Perturbation") 
+      (:functions "prf::alea-pertb" "prf::compr/expan"))
+   (:package 
+      (:name "Change") 
+      (:functions "prf::control-pertb" "prf::prof-change"))
+   (:package 
+      (:name "Reflexions") 
+      (:functions "prf::reflexion" "prf::double-reflect" "prf::multi-reflect"))
+   (:package 
+      (:name "Deruv/Integr") 
+      (:functions "prf::mean-derivation" "prf::pr-interlock" "prf::derivation" "prf::integration"))
+   (:package 
+      (:name "Interpolation") 
+      (:functions "prf::inter-dyn" "prf::multi-interpol" "prf::interpol-prof"))
+   (:package 
+      (:name "Utilities") 
+      (:functions "prf::range-approx" "prf::notes-change" "prf::weight-average" 
+                  "prf::pr-group-list" "prf::subst-list" "prf::interpol-tab" "prf::bpf-interpolx"))
+   ))
+)
+

@@ -23,11 +23,10 @@
   :initvals '('(1 2 3 4 5) 2) :indoc '("list" "number") :icon 128
   :doc 
   "list-explode divides a list into <nlist> sublists of consecutives elements.  
-For example, if list is (1 2 3 4 5 6 7 8 9), and ncol is 2, the result is ((1 2 3 4 5) 
-(6 7 8 9)),
-if list is (1 2 3 4 5 6 7 8 9), and ncol is 5, the result is: ((1 2) (3 4) (5 6) (7 8) (9)). 
-If the number of divisions exceeds the number of elements in the list, the 
-remaining divisions are returned as nil."
+ For example, if list is (1 2 3 4 5 6 7 8 9), and ncol is 2, the result is ((1 2 3 4 5) (6 7 8 9)),
+ if list is (1 2 3 4 5 6 7 8 9), and ncol is 5, the result is: ((1 2) (3 4) (5 6) (7 8) (9)). 
+ If the number of divisions exceeds the number of elements in the list, the 
+ remaining divisions are returned as nil."
   
   (if (> nlists (length list)) 
     (setq list (append list (make-list (- nlists (length list)) :initial-element (first (last list))))))
@@ -41,9 +40,10 @@ remaining divisions are returned as nil."
              (end (- length 1 rest)) 
              (ser (arithm-ser 0  (1- step) 1))
              res)
-        (for (i 0 step end)
-          (push (remove () (posn-match     list (om+ i ser))) res))
-        (setq low (length (flat-once res)))
+        (loop for i = 0 then (+ i step) 
+              while (<= i end) do
+              (push (remove () (posn-match list (om+ i ser))) res))
+        (setq low (length (om::flat-once res)))
         (if (< low length) (setq res (cons (append (first res) (nthcdr low list)) (rest res))))
         (cond ((> (length res) nlists) 
                (nreverse (cons (nconc (second res) (first res)) (nthcdr 2 res))))
@@ -1518,7 +1518,7 @@ Entree optionnelle
                                          initio endio)))
          (con-scala (when note?
                       (if (= (length begin) 1)
-                        (om::my-explode
+                        (my-explode
                          (notes-change (om::flat interpo) (om::flat le-note) 48)
                          (length interpo))
                         (cambia-ogni-accordo interpo le-note))))
@@ -1708,7 +1708,7 @@ des notes ou des accords.
          (interpo (dyn-mult prof steps tab))
          (interpo-note (when note?
                          (if (atom (first prof))
-                           (interpol-mult-note? (om::my-explode prof (length prof)) steps tab note?)
+                           (interpol-mult-note? (my-explode prof (length prof)) steps tab note?)
                            (interpol-mult-note? prof steps tab note?)))))
     
     (if note? interpo-note interpo)))
@@ -2165,7 +2165,7 @@ NOTE: THIS FUNCTION HAS BEEN RENAMED PR-GROUP-LIST DUE TO A NAME CONFLICT WITH O
       (1 (crea-spazio list group))
       (2 (scomp calcolo group))
       (3 (crea-spazio list (om::om-round 
-                      (om::scale/sum group (length list))))))))
+                      (om::om-scale/sum group (length list))))))))
 ;
 ;
 

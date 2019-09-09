@@ -5,38 +5,28 @@
 ;;                       by Mikhail Malt   &   Jacopo Baboni Schilingi  © IRCAM 1994
            
   
-;--------------------------------------------------
-;Package Definition (Optional, else use package :OM) 
-;--------------------------------------------------
 (in-package :cl-user)
 
 (defpackage "Profile"
   (:nicknames :prf) 
   (:use "COMMON-LISP" "CL-USER" "OpenMusic"))
 
-(om::set-lib-release 2.0)
-
-(in-package "Profile")
-
+(om::compile&load (om::om-relative-path '("sources") "package"))
 (om::compile&load (om::om-relative-path '("sources") "profile"))
+
+(om::set-lib-release 2.1)
 
 ;--------------------------------------------------
 ; OM subpackages initialization
 ; ("sub-pack-name" subpacke-lists class-list function-list class-alias-list)
 ;--------------------------------------------------
-(defvar *subpackages-profo* nil)
-(setf *subpackages-profo*
-      '(("Perturbation" nil nil (alea-pertb  compr/expan) nil)
-        ("Change" nil nil (control-pertb prof-change) nil)
-        ("Reflexions" nil nil (reflexion double-reflect multi-reflect) nil)
-        ("Deriv/Integr" nil nil (mean-derivation pr-interlock derivation integration) nil)
-        ("Interpolation" nil nil (Inter-dyn multi-interpol interpol-prof) nil)
-        ("Utilities" nil nil (range-approx notes-change weight-average pr-group-list subst-list 
-                                           interpol-tab bpf-interpolx ) nil)))
-
-;--------------------------------------------------
-;filling packages
-;--------------------------------------------------
-(om::fill-library *subpackages-profo*)
+(om::fill-library 
+	'(("Perturbation" nil nil (prf::alea-pertb prf::compr/expan) nil)
+      ("Change" nil nil (prf::control-pertb prf::prof-change) nil)
+   	  ("Reflexions" nil nil (prf::reflexion prf::double-reflect prf::multi-reflect) nil)
+      ("Deriv/Integr" nil nil (prf::mean-derivation prf::pr-interlock prf::derivation prf::integration) nil)
+      ("Interpolation" nil nil (prf::inter-dyn prf::multi-interpol prf::interpol-prof) nil)
+      ("Utilities" nil nil (prf::range-approx prf::notes-change prf::weight-average prf::pr-group-list prf::subst-list 
+      	                                     prf::interpol-tab prf::bpf-interpolx) nil)))
 
 
