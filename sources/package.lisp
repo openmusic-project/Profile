@@ -3,4 +3,4 @@
 
 (defpackage "Profile"
   (:nicknames :prf) 
-  (:use "COMMON-LISP" "CL-USER" "OpenMusic"))
+  (:use "COMMON-LISP" "CL-USER" "OM"))
