@@ -128,11 +128,11 @@ indiquer le modulo du champs harmonique utilise
 sur les intervalles de la liste de hauteurs <list> en les multipliant
 par la valeur de l'entree <value>. 
 <list> est une liste simple, a un niveau, de hauteurs en listents
-<value> est facteur multiplicateur, il peut être un  entier ou flottant.
+<value> est facteur multiplicateur, il peut ¬être un  entier ou flottant.
 <note?> entree optionnelle qui permet l'ajustement de la forme generee
        a un champs harmonique quelconque.
        <note?> peut etre soit une echelle soit un accord.
-Si <value> est egal a '1' les intervalles de <liste> seront maintenus les mêmes.
+Si <value> est egal a '1' les intervalles de <liste> seront maintenus les m¬êmes.
 Si <value> est plus petit que '1' les intervalles de <liste> seront compresses.
 Si <value> est plus grand que '1' les intervalles de <liste> seront elargis.
 Des valeurs negatives de <value>  occasionnent des renversement d'intervalles."
@@ -176,7 +176,7 @@ aleatoire prise entre -range e +range.
   :initvals '('(1 2 3 4 5) '(-10 10 -2 2) 1) 
   :indoc '("list" "number") 
   :icon 152
-  :doc "Ce module permet d'appliquer une perturbation contrôlee sur 
+  :doc "Ce module permet d'appliquer une perturbation contr‚Ñ¢lee sur 
 certaines hauteurs de la liste  <list> en leurs ajoutant 
 la valeur 'fact*index'.
 <list> est une liste simple, a un niveau, de hauteurs en listents.
@@ -194,13 +194,13 @@ la liste resultante sera
 Un zero '0' dans la liste <fact> indique que l'element correspondant
 de la liste <list> sera inchange.
 
-Dans certains cas l'entree <fact> peut être utilise.
+Dans certains cas l'entree <fact> peut ¬être utilise.
 Exemple, soit la meme liste <list> 
 ->>(6000 6600 6800 6700 6200 6300 5900),
 et la liste de <index> 
 ->>(0 25 -50 0 0 5 -75)
 en fonction de la valeur de <fact> il est possible
-de contrôler plus finement la perturbation appliquee.
+de contr‚Ñ¢ler plus finement la perturbation appliquee.
 si <fact> egal 25 le resultat  sera
 ->>(6000 6625 6750 6700 6200 6425 5825)
 
@@ -210,7 +210,7 @@ si <fact> egal 25 le resultat  sera
 
 L'entree <index> accepte aussi un module <multi-bpf>.
 Dans ce cas precis, le module <control-pertb> opere 
-un echantillonnage (avec le même nombre de pas que la longueur de <list>)
+un echantillonnage (avec le m¬ême nombre de pas que la longueur de <list>)
 de la fonction par segments et considere les valeurs obtenues comme etant
 une liste <index>."
   (om::om+ list (om::om-round (om::om*  fact index) 0)))
@@ -414,7 +414,7 @@ et les  hauteurs ou les intervalles de <pitch> en fonction de <mode?>."
             ""
 
   (let ((ris nil)
-        (limite (first (om::list! limit))))
+        (limite (if (listp limit) (car limit) limit)))
     
     (dolist (y list (nreverse ris))
       (push (if (< y limite)
@@ -432,7 +432,7 @@ et les  hauteurs ou les intervalles de <pitch> en fonction de <mode?>."
   ""
   
   (let ((ris nil)
-        (limite (first (om::list! limit))))
+        (limite (if (listp limit) (car limit) limit)))
     
     (dolist (y list (nreverse ris))
       (push (if (> y limite)
@@ -458,15 +458,14 @@ et les  hauteurs ou les intervalles de <pitch> en fonction de <mode?>."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Modulo con altezze fisse;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
 (defun mod-fix- (ls asse)
-  ""
   (let ((ris nil)
-        (asse (om::list! asse)))
+        (asse (if (listp asse) (car asse) asse)))
     (dotimes (x (length ls) (nreverse ris))
       (push
        (if (<= (nth x ls) (first asse)) (nth x ls)
-           (+ (first asse) (first (int-com (list
-                                            (first asse)
-                                            (nth x ls)))))) 
+         (+ asse (first (int-com (list
+                                  asse
+                                  (nth x ls)))))) 
        ris))))
 ;
 ;
@@ -474,16 +473,14 @@ et les  hauteurs ou les intervalles de <pitch> en fonction de <mode?>."
 ;
 ;
 (defun mod-fix+ (ls asse)
-
-  ""
   (let ((ris nil)
-        (asse (om::list! asse)))
+        (asse (if (listp asse) (car asse) asse)))
     (dotimes (x (length ls) (nreverse ris))
       (push
        (if (>= (nth x ls) (first asse)) (nth x ls)
-           (+ (first asse) (first (int-com (list
-                                            (first asse)
-                                            (nth x ls)))))) ris))))
+         (+ asse (first (int-com (list
+                                  asse
+                                  (nth x ls)))))) ris))))
 ;
 ;
 ;--------------------------------------
@@ -506,8 +503,8 @@ et les  hauteurs ou les intervalles de <pitch> en fonction de <mode?>."
 ;
 ;
 (om::defmethod! doppio-reflex-note ((list list)
-                                (value list))
-:initvals '('(1 2 3 4 5) 2) :indoc '("list" "number") :icon  128
+                                    (value list))
+  :initvals '('(1 2 3 4 5) 2) :indoc '("list" "number") :icon  128
   :doc 
             
             "Restituisce due volte <REFLEX-NOTE> la prima volta a <LIST>
@@ -520,12 +517,12 @@ et les  hauteurs ou les intervalles de <pitch> en fonction de <mode?>."
 ;--------------------------------------
 ;
 ;
-(om::defmethod! doppio-reflex-int ((list list)
-                               (value list)) 
-:initvals '('(1 2 3 4 5) 2) :indoc '("list" "number") :icon  128
+(om::defmethod! doppio-reflex-int ((list list) (value list)) 
+
+  :initvals '('(1 2 3 4 5) 2) :indoc '("list" "number") :icon  128
   :doc 
             
-            "Restituisce due volte <REFLEX-INT> la prima volta a <LIST>
+  "Restituisce due volte <REFLEX-INT> la prima volta a <LIST>
              la seconda volta al risultato della prima volta."
   
   
@@ -605,7 +602,7 @@ et les  hauteurs ou les intervalles de <pitch> en fonction de <mode?>."
 ;--------------------------------------
 ;
 (om::defmethod! reflexion ((list list) 
-                           (axis list)
+                           axis
                            mode?
                            up/down)
   :initvals '('(1 2 3 4 5) 2 1 1)
@@ -904,7 +901,7 @@ est que ce module garde les directions au moment de la reflexion.
            inferieur et superieur  au tour desquels s'opere la symetrie.
 <note?>    entree optionnelle qui permet l'ajustement de la forme generee
            a un champs harmonique quelconque.
-           <note?> peut être soit une echelle soit un accord.
+           <note?> peut ¬être soit une echelle soit un accord.
 
 
 "
@@ -978,7 +975,7 @@ est que ce module garde les directions au moment de la reflexion.
 ;
 ;
 (om::defmethod! mean-derivation ((list list) 
-                             (gr° number)
+                             (gr¬° number)
                              &optional (note? nil))
 :initvals '('(6000 6600 7100) 1 nil) 
 :indoc '("list" "number") 
@@ -990,7 +987,7 @@ Ce module genere un profil melodique resultant d'un processus
 de calcul de moyenne entre des notes consecutives de <list>.
 Exemple:
 soit <list> = (6000 5700 5100 5200 4900 5800 6400 7200 7800 7500 6600 6800)
-et <gr°> = 1
+et <gr¬°> = 1
 Le resultat sera:
 (5850 5400 5150 5050 5350 6100 6800 7500 7650 7050 6700)
 ou
@@ -999,7 +996,7 @@ ou
 5400 est la moyenne entre 5700 et 5100,
 et ainsi de suite.
 et  que le nombre d'elements est reduit de un
-Si nous gardons la même <list> et nous faisons <gr°> = 2,
+Si nous gardons la m¬ême <list> et nous faisons <gr¬°> = 2,
 le resultat sera:
 (5625 5275 5100 5200 5725 6450 7150 7575 7350 6875)
 ou
@@ -1008,7 +1005,7 @@ ou
 et ainsi de suite.
 
 (se rappeler que (5850 5400 5150...)
-sont les resultats du processus avec  <gr°> = 1)
+sont les resultats du processus avec  <gr¬°> = 1)
 
 Nous pouvons calculer ce processus avec plusieurs degres de profondeur,
 mais en se souvenant que  a chaque fois la liste resultante sera reduite d'un element
@@ -1017,13 +1014,13 @@ Il est possible aussi d'utiliser l'entree optionnelle <note?>
 pour ajuster la forme generee a un champs harmonique particulier.
 
 <list>     est une liste simple de hauteurs en listents.
-<gr°>      est le niveau de profondeur du processus.
+<gr¬°>      est le niveau de profondeur du processus.
 <note?>    entree optionnelle qui permet l'ajustement de la forme generee
            a un champs harmonique quelconque.
-           <note?> peut être soit une echelle soit un accord."
+           <note?> peut ¬être soit une echelle soit un accord."
   
-  (let* ((calcolo (if (= 1 gr°) (med-fix list)
-                     (mean-derivation (med-fix list) (- gr° 1)  note?)))
+  (let* ((calcolo (if (= 1 gr¬°) (med-fix list)
+                     (mean-derivation (med-fix list) (- gr¬° 1)  note?)))
          (con-note (when note?
                      (notes-change calcolo note? 48))))
     
@@ -1068,7 +1065,7 @@ pour ajuster la forme generee a un champs harmonique particulier.
 (om::defmethod! quasi-der-suc ((list list)
                                start
                                (note? list)
-                               (gr° number))
+                               (gr¬° number))
   
   
   :initvals '('(1 2 3 4 5) 2 1 10)
@@ -1077,47 +1074,47 @@ pour ajuster la forme generee a un champs harmonique particulier.
   :icon  128
   :doc "Calcola la differenza (delta y) tra una altezza e la precedente e
              se si considera (= (delta x) 1) allora il risultato e la 'derivazione
-             della lista <LIST>. Con <gr°> possiamo decidere di sapere quante volte
+             della lista <LIST>. Con <gr¬°> possiamo decidere di sapere quante volte
              vogliamo applicare la stessa operazione a <LIST>, in altre parole
              decidiamo il grado della derivazione da fare a <LIST>."
   
   (let ((partenza (case start
                     (1 (first list))
                     (2 note?))))
-    (if (= gr° 1) 
+    (if (= gr¬° 1) 
       (deriv list partenza)
       (quasi-der-suc (deriv list partenza)
                      start note?
-                     (- gr° 1)))))
+                     (- gr¬° 1)))))
 ;
 ;
 ;--------------------------------------
 ;
 ;
 (om::defmethod! prime-note ((list list)
-                        (gr° number))
+                        (gr¬° number))
 :initvals '('(1 2 3 4 5) 2) :indoc '("list" "number") :icon  128
   :doc 
             
             "Prende la prima nota di ogni derivata e ne fa una lista.
-             Se <GR°> e uguale a 1 allora restituisce la prima nota 
+             Se <GR¬°> e uguale a 1 allora restituisce la prima nota 
              di <LIST>. Questo serve per la funzione <INTEGR-SUC> che
              abbisogna di ogni passo delle derivate per risalire alla
              lista <LIST> di partenza."
   
   (let ((ris (first list))
         (partenza (first list)))
-    (if (= gr° 1) 
+    (if (= gr¬° 1) 
       (om::list! ris)
       (append (prime-note (deriv list partenza)
-                          (- gr° 1)) (list  ris)))))
+                          (- gr¬° 1)) (list  ris)))))
 ;
 ;
 ;--------------------------------------
 ;
 (om::defmethod! derivation ((list list)
                             (start integer) 
-                            (gr° number))
+                            (gr¬° number))
   :initvals '('(1 2 3 4 5) 1 1)
   :menuins '((1 (("first" 1) ("orig" 2))))
   :indoc '("list" "number" "") 
@@ -1145,15 +1142,15 @@ deuxieme degre cette deuxieme partie de la liste contiendra deux elements, et ai
 <list>     est soit une liste simple de hauteurs en listents representant un profil,
            spoit une liste de listes originaire d'un module <integration>.
 <start>    menu derroulant qui permet de definir le mode de fonctionement de ce module.
-           Si <start> egal a 'first' l'entree <list> doit être une liste simple de hauteurs,
+           Si <start> egal a 'first' l'entree <list> doit ¬être une liste simple de hauteurs,
            en listents, representant un profil, le resultat de l'operation sera la derivation
            de ce profil.
-           Si <start> egal a 'orig' l'entree <list> doit être une liste de listes,
+           Si <start> egal a 'orig' l'entree <list> doit ¬être une liste de listes,
            originaire d'un module <integration>. Ce mode sert a la reconstitution d'un profil
            suite a des derivations successives.
           
 
-<gr°>      est l'ordre de l'operation de derivation.
+<gr¬°>      est l'ordre de l'operation de derivation.
 
 
 
@@ -1164,8 +1161,8 @@ deuxieme degre cette deuxieme partie de la liste contiendra deux elements, et ai
   (let ((value (if (= start 2) (rest list) nil))
         (list (if (= start 1) list (first list))))
     
-    (append (list (quasi-der-suc list start value gr°))
-            (prime-note list gr°))))        
+    (append (list (quasi-der-suc list start value gr¬°))
+            (prime-note list gr¬°))))        
 ;
 ;
 ;
@@ -1189,7 +1186,7 @@ deuxieme degre cette deuxieme partie de la liste contiendra deux elements, et ai
 (om::defmethod! quasi-integr-suc ((list list)
                                   (start integer)
                                   (value list)
-                                  (gr° number))
+                                  (gr¬° number))
  
   :initvals '('(1 2 3 4 5) 1 nil 2)
   :menuins '((1 (("baric" 1) ("orig" 2))))
@@ -1198,7 +1195,7 @@ deuxieme degre cette deuxieme partie de la liste contiendra deux elements, et ai
   :doc "E' la funzione inversa alla funzione <DERIV-SUC>. In altre parole
              prende una lista <LIST> gli sottrae un elemento scelto in <START>
              e costruisce una lista con (om::dx->x) a partire da <START>.
-             Con <GR°> possiamo decidere il numero di integrazioni successive
+             Con <GR¬°> possiamo decidere il numero di integrazioni successive
              da applicare ad una lista.
              Con <START> uguale BARIC allora la nota di partenza sara il BARICENTRO
              della lista.
@@ -1213,17 +1210,17 @@ deuxieme degre cette deuxieme partie de la liste contiendra deux elements, et ai
                     (1 (baricentro list))
                     (2 (pop value)))))
     
-    (if (= gr° 1)
+    (if (= gr¬° 1)
       (push
        (integr list partenza) ris)
-      (quasi-integr-suc (integr list partenza) start value (- gr° 1)))))
+      (quasi-integr-suc (integr list partenza) start value (- gr¬° 1)))))
 ;
 ;
 ;--------------------------------------
 ;
 (om::defmethod! integration ((list list)
                              (start integer)
-                             (gr° number))
+                             (gr¬° number))
   :initvals '('(1 2 3 4 5) 1 1)
   :menuins '((1 (("baric" 1) ("orig" 2))))
   :indoc '("list" "number") 
@@ -1248,12 +1245,12 @@ deuxieme degre cette deuxieme partie de la liste contiendra toujours un element,
            Si <start> egal a 'orig' l'entree <list> doit etre une liste de listes,
            originaire d'un module <derivation>. Ce mode sert a la reconstitution d'un profil
            suite a des integrations successives.        
-<gr°>      est l'ordre de l'operation d'integration. "
+<gr¬°>      est l'ordre de l'operation d'integration. "
   (when (or (and (= start 1) (listp (first list))) (and (= start 2) (atom  (first list))))
     (error "ATTENTION!! Au format de la liste d'entree <list> et au menu <start>"))
   (let ((value (if (= start 2) (rest list) nil))
         (list (if (= start 1) list (first list))))
-    (append (quasi-integr-suc list start value gr°)
+    (append (quasi-integr-suc list start value gr¬°)
             (list (baricentro list)))))
 ;
 ;
@@ -1337,7 +1334,7 @@ deuxieme degre cette deuxieme partie de la liste contiendra toujours un element,
 avec un degre <gr> de profondeur variable.
 L'interet de ce module reside dans le fait que n'importe quelles que soient
 les notes de <list2> chaque fois qu'elles sont enchevetrees entre les notes
-de <list1>, le module a le soin de changer la note d'octave de faÁon
+de <list1>, le module a le soin de changer la note d'octave de fa√ßon
 qu'elle puisse etre entre les deux notes de <list1>.
 Exemple:
 soit un f#1 de <list2> qui devrait etre enchevetree entre une paire
@@ -1346,7 +1343,7 @@ pour que la sequence devienne: e3 f#3 a3. Au cas ou la note a etre enchevetree
 ne soit pas contenu entre la paire de <list1>, elle sera alors transposee
 vers l'octave la plus proche d'une des notes de la paire en question.
 Exemple:
-Soit le même f#1 de <list2> qui devrait etre enchevetree entre une paire
+Soit le m¬ême f#1 de <list2> qui devrait etre enchevetree entre une paire
 g3 et a#3 de <list1>. Le f#1 de <list2> serait, alors, transpose a f#3
 pour que la sequence devienne:  f#3 g3 a#3. Le f#1 a ete transpose
 le plus proche d'une des bornes de cette paire, dans ce cas precis a f#3
@@ -1365,12 +1362,12 @@ Il est possible de remarquer deux choses:
     insere entre les deux notes de la premiere paire de <list1> ->(6000* 4300*)
 
 Si on maintient les memes listes, <list1> et  <list2> mais on change
-<gr°> a 2 nous aurons:
+<gr¬°> a 2 nous aurons:
 (6000* 5400 4900! 4400 4300* 5800 6300! 6000 6900* 7300 6500! 6300 5900*)
           [le * a ete ajoute pour marquer les notes de <list1> et ! pour 
            marquer les notes deja ajoutes lors du premier processus]
 nous percevons que les notes ajoutees sont 5400 (f#2 transposition de f#3 6600
-pour pouvoir être inseree entre 6000 et 4900),
+pour pouvoir ¬être inseree entre 6000 et 4900),
 4400 (g#1 transposition de g#3 6800 pour pouvoir inseree entre 4900 et 4300)
 et ainsi de suite. C'est-a-dire a chaque niveau du processus le module
 lit les notes de <list2> qui n'ont pas ete lues lors de l'operation du niveau precedant.
@@ -1426,9 +1423,9 @@ NOTE:  THIS FUNCTION HAS BEEN RENAMED 'PR-INTERLOCK' DUE TO A NAME CONFLICT WITH
 ;
 ;
 (om::defmethod! inter-dyn0 ((init number) (end number) (steps number)
-                            &optional (tab (make-instance 'om::bpf)) (inclu? 1))
+                            &optional (tab nil) (inclu? 1))
  
-  :initvals '(0 10 1 (make-instance 'om::bpf) 1)
+  :initvals '(0 10 1 nil 1)
   :menuins '((4 (("yes" 1) ("no" 2))))
   :icon  128
   :doc "Interpolation dynamique entre deux points avec la possibilite de definir
@@ -1468,11 +1465,11 @@ le parcours.
 (om::defmethod! inter-dyn ((begin list) 
                            (end list) 
                            (steps number)
-                           (tab om::bpf) 
+                           tab 
                            (inclu? integer)
-                           &optional note? )
+                           &optional note?)
   
-  :initvals '((0) (10) 1 (make-instance 'om::bpf) 1 nil)
+  :initvals '((0) (10) 1 nil 1 nil)
   :menuins '((4 (("yes" 1) ("no" 2))))
   :icon  152
   :doc "Interpolation dynamique entre deux points avec la possibilite de definir
@@ -1643,7 +1640,7 @@ Entree optionnelle
 ;
 ;
 (om::defmethod! multi-interpol ((prof list) 
-                                (n°elm list) 
+                                (n¬°elm list) 
                                 (tab om::bpf)
                                 &optional (note? '(6000 6100 6200 6300 6400 6500 6600 6700 6800 6900 7000 7100 )))
   
@@ -1655,22 +1652,22 @@ des notes ou des accords.
 
 <prof>    est soit une liste simple, soit une liste de listes, de hauteurs en listents.
            
-<n°elm>   est soit un nombre, soit une liste. Il est possible de choisir
+<n¬°elm>   est soit un nombre, soit une liste. Il est possible de choisir
           le nombre de pas d'interpolation entre les elements de <prof>.
-          Si <n°elm> est un nombre, par exemple '3', nous allons ajouter 
+          Si <n¬°elm> est un nombre, par exemple '3', nous allons ajouter 
           trois pas d'interpolation entre chaque paire d'elements de <prof>.
-          Dans ce cas <n°elm> a une action globale.
-          Mais il est aussi possible de rentrer dans <n°elm> une liste
+          Dans ce cas <n¬°elm> a une action globale.
+          Mais il est aussi possible de rentrer dans <n¬°elm> une liste
           qui definirait un nombre de pas d'interpolation differents
           pour chaque paire d'elements de <prof>, ce qui nous permet
-          un contrôle locale.
-          Par exemple si <n°elm> egal a (3 4 5) nous aurons trois elements
+          un contr‚Ñ¢le locale.
+          Par exemple si <n¬°elm> egal a (3 4 5) nous aurons trois elements
           interpoles entre la premiere paire de valeurs, quatre entre 
           la deuxieme et cinq entre la troisieme.
-          Si le nombre de points de <n°elm> est plus petit que le nombre 
-          d'elements de <prof> moins un, la liste <n°elm> sera lue circulairement.
+          Si le nombre de points de <n¬°elm> est plus petit que le nombre 
+          d'elements de <prof> moins un, la liste <n¬°elm> sera lue circulairement.
           Dans l'exemple au-dessus si <prof> a plus de quatre elements,
-          le module recommencera la lecture du debut de <n°elm>, c'est-a-dire,
+          le module recommencera la lecture du debut de <n¬°elm>, c'est-a-dire,
           entre la quatrieme paire d'elements de <prof> nous aurons trois elements,
           apres quatre, etc..
           
@@ -1678,7 +1675,7 @@ des notes ou des accords.
 <tab>     cette entree accepte un module bpf  et realise l'interpolation 
           entre <begin> et <end> avec le profil dessine dans la bpf.
           Si aucun module <multi-bpf> est connecte l'interpolation sera lineaire.
-          De la même maniere que <n°elm> il est possible de connecter soit un
+          De la m¬ême maniere que <n¬°elm> il est possible de connecter soit un
           objet <multi-bpf>, soit une liste d'objets <multi-bpf>.
           Si <tab> est un objet <multi-bpf> l'interpolation entre toutes les paires
           de <prof> sera toujours avec la forme designee par <tab>.
@@ -1686,14 +1683,14 @@ des notes ou des accords.
           Mais il est aussi possible de rentrer dans <tab> une liste
           qui definirait une direction d'interpolation differente
           pour chaque paire d'elements de <prof>, ce qui nous permet
-          un contrôle locale.
+          un contr‚Ñ¢le locale.
           Si le nombre d'elements de <tab>> est plus petit que le nombre 
           d'elements de <prof> moins un, la liste <tab> sera lue circulairement.
          
 
 <note?>    entree optionnelle qui permet l'ajustement de la sequence generee
            (exception faite a <begin> et <end>) a un (ou plusieurs) champs harmoniques.
-           <note?> peut être soit une liste simple ou soit une liste de listes.
+           <note?> peut ¬être soit une liste simple ou soit une liste de listes.
            Si <note?> est une liste simple tous les objets seront ajustes
            en fonction des notes de cette liste.
            Si <note?> est une liste de listes a chaque objet genere sera
@@ -1704,7 +1701,7 @@ des notes ou des accords.
 
 "
   
-  (let* ((steps (om::list! n°elm))
+  (let* ((steps (om::list! n¬°elm))
          (interpo (dyn-mult prof steps tab))
          (interpo-note (when note?
                          (if (atom (first prof))
@@ -2145,7 +2142,7 @@ PW->((a b c d) (e f) (g) (h i j) (k l m))
         PW->((a b c d) (e f) (g) (h i j) (k l m a b) (c d)).
 
         Si <mode?> egal 'scal' la segmentation se fera proportionnellement.
-        L'articulation prendra en compte plutôt les proportion entre les
+        L'articulation prendra en compte plut‚Ñ¢t les proportion entre les
         elements de <group> et constituera des segments avec tous les 
         elements de <list>.Exemple soit la liste <list> de 12 elements
         (a b c d e f g h i j k l) et la liste <group> (5 3 4).
@@ -2190,9 +2187,9 @@ NOTE: THIS FUNCTION HAS BEEN RENAMED PR-GROUP-LIST DUE TO A NAME CONFLICT WITH O
 appartenant a <list> par un nouveau element <new>.
 <list>  est la liste de reference
 <old>   est l'element a retirer de <list>,
-        il peut être un nombre, une liste ou un symbole  
+        il peut ¬être un nombre, une liste ou un symbole  
 <new>   est l'element a substituer dans <list> a la place de <old>,
-        il peut être un nombre, une liste ou un symbole                           
+        il peut ¬être un nombre, une liste ou un symbole                           
 <start> est un indice qui indique a partir de quel element de la liste
         se fera la substitution. '0' (zero) est le premier element.
 <count> est un indice qui indique combien d'elements <old> de <list>
