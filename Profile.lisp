@@ -14,7 +14,7 @@
 (om::compile&load (om::om-relative-path '("sources") "package"))
 (om::compile&load (om::om-relative-path '("sources") "profile"))
 
-(om::set-lib-release 2.1)
+(om::set-lib-release 2.2)
 
 ;--------------------------------------------------
 ; OM subpackages initialization

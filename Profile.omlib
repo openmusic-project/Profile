@@ -3,7 +3,7 @@
 
 (:om-lib
  
- (:version 2.1)
+ (:version 2.2)
 
  (:doc "Functions from the Repmus team.")
 
