@@ -2067,7 +2067,7 @@ defini par la liste <limit>.
 ;
 ;
 ;
-(om::defmethod! segment ((liste list) 
+(om::defmethod! pr-segment ((liste list) 
                          (place number) 
                          (n-elem number)
                          (lecture integer))
@@ -2094,7 +2094,7 @@ defini par la liste <limit>.
 ;
 (defun crea-spazio (list segm)
   (let ((place (om::dx->x 0 segm)))
-    (remove nil (mapcar #'(lambda (pl el) (segment list pl el 1)) place segm))))
+    (remove nil (mapcar #'(lambda (pl el) (pr-segment list pl el 1)) place segm))))
 ;
 ;
 ;--------------------------------------
