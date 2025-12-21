@@ -7,4 +7,4 @@ by Mikhail Malt & Jacopo Baboni Schilingi, IRCAM 1994
 
 -------
 
-User Manual (1998): http://support.ircam.fr/docs/om-libraries/old/Profile-2.0-Doc.pdf
+User Manual (1998): https://openmusic-project.github.io/openmusic/doc/om-libraries/Profile-2.0-Doc.pdf
